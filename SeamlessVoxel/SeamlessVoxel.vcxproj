@@ -154,6 +154,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PrimitiveGenerator.cpp" />
+    <ClCompile Include="RegionFileManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SeamlessVoxelEngine.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PrimitiveGenerator.h" />
+    <ClInclude Include="RegionFileManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SeamlessVoxelEngine.h" />

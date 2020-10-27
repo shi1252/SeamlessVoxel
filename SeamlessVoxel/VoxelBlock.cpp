@@ -35,3 +35,15 @@ bool VoxelBlock::SetCell(UINT index, const VoxelCellType& type)
 	cells[index].type = type;
 	return true;
 }
+
+char* VoxelBlock::GetBytesFromBlcok()
+{
+	char* bytes = new char[BLOCKSIZE];
+
+	for (int i = 0; i < BLOCKSIZE; ++i)
+	{
+		bytes[i] = cells[i].type;
+	}
+
+	return bytes;
+}

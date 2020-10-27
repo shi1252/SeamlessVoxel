@@ -32,17 +32,7 @@ void VoxelChunk::CreateNewChunk(const XMINT2& position)
 			}
 		}
 	}
-	CreateMesh();
 	state = EChunkState::DONE;
-}
-
-void VoxelChunk::SaveChunk()
-{
-}
-
-bool VoxelChunk::LoadChunkFromFile(const XMINT2& position)
-{
-	return false;
 }
 
 void VoxelChunk::SetCell(XMUINT3 position, const VoxelCellType& type)

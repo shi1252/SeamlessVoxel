@@ -2,6 +2,7 @@
 #include "Defined.h"
 
 class VoxelChunk;
+class RegionFileManager;
 
 class ChunkMemoryPool
 {
@@ -21,4 +22,6 @@ private:
 	VoxelChunk* pool = nullptr;
 	UINT poolSize;
 	UINT halfSize;
+
+	RegionFileManager* rfm = nullptr;
 };

@@ -21,9 +21,9 @@ public:
 	static UINT Index(const XMINT3& position) { return (position.x + (16 * (position.y + 16 * position.z))); }
 	float FillRate() { return ((float)fillCount / BLOCKSIZE); }
 
-public:
-	unsigned int fillCount = 0;
+	char* GetBytesFromBlcok();
 
-private:
+public:
 	VoxelCell cells[BLOCKSIZE];
+	unsigned int fillCount = 0;
 };

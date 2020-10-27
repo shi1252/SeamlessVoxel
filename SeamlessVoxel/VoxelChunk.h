@@ -32,8 +32,6 @@ public:
 	void Render();
 
 	void CreateNewChunk(const XMINT2& position);
-	void SaveChunk();
-	bool LoadChunkFromFile(const XMINT2& position);
 
 	void SetCell(XMUINT3 position, const VoxelCellType& type);
 	bool CreateMesh();

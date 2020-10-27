@@ -114,6 +114,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="RegionFileManager.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SeamlessVoxelEngine.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="RegionFileManager.h">
+      <Filter>Voxel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
