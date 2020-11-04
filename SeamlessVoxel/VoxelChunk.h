@@ -42,5 +42,5 @@ public:
 	EChunkState state = EChunkState::NONE;
 
 	bool isChanged = false;
-	InstancingMesh<VoxelInstanceType> mesh;
+	InstancingMesh<VoxelInstanceType>* mesh = nullptr;
 };

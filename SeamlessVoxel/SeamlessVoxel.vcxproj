@@ -183,6 +183,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PrimitiveGenerator.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RegionFileManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="SVMath.h" />
     <ClInclude Include="TargaTexture.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VoxelBlock.h" />

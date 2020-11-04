@@ -3,7 +3,7 @@
 
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)
 {
-	SVEngine* engine = new SVEngine();
+	SVEngine* engine = new SVEngine(hInst);
 	if (!engine)
 	{
 		return -1;

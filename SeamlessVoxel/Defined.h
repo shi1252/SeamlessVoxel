@@ -11,3 +11,4 @@
 #include <string>
 
 #include "DxDefined.h"
+#include "SVMath.h"

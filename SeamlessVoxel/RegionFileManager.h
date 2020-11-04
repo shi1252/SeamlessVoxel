@@ -1,6 +1,7 @@
 #pragma once
 #include "Defined.h"
 #include <unordered_map>
+#include <mutex>
 
 #define REGIONSIZE 1024u // 32 * 32
 
@@ -28,6 +29,7 @@ public:
 			{
 				fseek(file, 0, SEEK_SET);
 				fwrite(header.location, sizeof(UCHAR), SECTORSIZE, file);
+				fflush(file);
 			}
 			fclose(file);
 		}
@@ -62,6 +64,7 @@ private:
 	std::string GetRegionFileName(const XMINT2& position);
 
 private:
+	std::mutex mutex;
 	std::unordered_map<std::string, RegionFile*> regionFiles;
 	std::string saveDir;
 };

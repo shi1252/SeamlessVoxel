@@ -11,7 +11,10 @@ RegionFileManager::RegionFileManager(const std::string& directory)
 RegionFileManager::~RegionFileManager()
 {
     for (auto&& rf : regionFiles)
+    {
         delete rf.second;
+        rf.second = nullptr;
+    }
     regionFiles.clear();
 }
 
@@ -134,6 +137,8 @@ UINT RegionFileManager::GetChunkIndexFromFile(const XMINT2& position)
 
 RegionFile* RegionFileManager::GetRegionFile(const XMINT2& position)
 {
+    std::unique_lock<std::mutex> lock(this->mutex);
+
     std::string name = GetRegionFileName(position);
     if (regionFiles.find(name) == regionFiles.end())
     {

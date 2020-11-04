@@ -10,7 +10,7 @@ class D3DInput;
 class SVEngine
 {
 public:
-	SVEngine() = default;
+	SVEngine(HINSTANCE h) : hInstance(h) {}
 	SVEngine(const SVEngine&) = delete;
 	~SVEngine();
 
@@ -29,7 +29,7 @@ public:
 private:
 	bool Update();
 
-	void InitializeWindows(int& width, int& height);
+	bool InitializeWindows(int& width, int& height);
 	void CloseWindows();
 
 public:

@@ -38,7 +38,8 @@ bool SVEngine::Initialize()
 	int width = 0;
 	int height = 0;
 
-	InitializeWindows(width, height);
+	if (!InitializeWindows(width, height))
+		return false;
 
 	renderer = new Renderer();
 	if (!renderer)
@@ -154,26 +155,32 @@ LRESULT SVEngine::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	}
 }
 
-void SVEngine::InitializeWindows(int& width, int& height)
+bool SVEngine::InitializeWindows(int& width, int& height)
 {
 	svEngine = this;
 
-	hInstance = GetModuleHandle(NULL);
+	//hInstance = GetModuleHandle(NULL);
 	appName = _T("SeamlessVoxelEngine");
 
 	WNDCLASSEX wc = { 0, };
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wc.lpfnWndProc = WndProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
 	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 	wc.hIconSm = wc.hIcon;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = appName;
 	wc.cbSize = sizeof(WNDCLASSEX);
 
-	RegisterClassEx(&wc);
+	if (!RegisterClassEx(&wc))
+	{
+		MessageBox(0, L"RegisterClass Failed.", 0, 0);
+		return false;
+	}
 
 	width = 800;
 	height = 600;
@@ -184,10 +191,18 @@ void SVEngine::InitializeWindows(int& width, int& height)
 	hWnd = CreateWindowEx(WS_EX_APPWINDOW, appName, appName,
 		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
 		x, y, width, height, NULL, NULL, hInstance, NULL);
+	if (!hWnd)
+	{
+		MessageBox(0, L"CreateWindow Failed.", 0, 0);
+		return false;
+	}
 
 	ShowWindow(hWnd, SW_SHOW);
 	SetForegroundWindow(hWnd);
 	SetFocus(hWnd);
+	UpdateWindow(hWnd);
+
+	return true;
 }
 
 void SVEngine::CloseWindows()

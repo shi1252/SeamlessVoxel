@@ -57,7 +57,7 @@ bool Renderer::Initialize(int width, int height, HWND hWnd)
 		return false;
 	}
 
-	camera->SetPosition(0.f, 0.f, -5.0f);
+	camera->SetPosition(0.f, 400.f, -5.0f);
 
 	voxel = new VoxelTerrain();
 	if (!voxel)
@@ -70,6 +70,7 @@ bool Renderer::Initialize(int width, int height, HWND hWnd)
 
 bool Renderer::Update()
 {
+	voxel->Update(camera->GetPosition());
 	return Render();
 }
 

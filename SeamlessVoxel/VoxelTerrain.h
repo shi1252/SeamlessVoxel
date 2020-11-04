@@ -10,13 +10,15 @@ public:
 	VoxelTerrain(const VoxelTerrain&) = delete;
 	~VoxelTerrain() = default;
 
+	void Update(const XMFLOAT3& position);
+
 	void Render();
 private:
 
 public:
 
 private:
-	ChunkMemoryPool chunkPool = ChunkMemoryPool(8);
+	ChunkMemoryPool chunkPool;// = ChunkMemoryPool(8);
 
 	UINT chunkSize = 64;
 	UINT viewDistance = 8;

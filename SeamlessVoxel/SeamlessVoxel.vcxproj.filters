@@ -215,5 +215,11 @@
     <ClInclude Include="RegionFileManager.h">
       <Filter>Voxel</Filter>
     </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

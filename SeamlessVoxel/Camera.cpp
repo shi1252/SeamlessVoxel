@@ -5,7 +5,7 @@ Camera* Camera::mainCam = nullptr;
 Camera::Camera()
 {
 	position = XMFLOAT3(0.f, 0.f, 0.f);
-	rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	rotation = XMFLOAT3(90.f, 0.f, 0.f);
 	if (mainCam == nullptr)
 		mainCam = this;
 }

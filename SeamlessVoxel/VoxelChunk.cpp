@@ -8,8 +8,11 @@ void VoxelChunk::Render()
 	if (state != EChunkState::DONE)
 		return;
 
-	mesh.Render(SVEngine::svEngine->GetD3DDC());
-	SVEngine::svEngine->GetShaderManager()->Render("Nothing", mesh.GetIndexCount(), mesh.GetInstCount());
+	if (mesh != nullptr)
+	{
+		mesh->Render(SVEngine::svEngine->GetD3DDC());
+		SVEngine::svEngine->GetShaderManager()->Render("Nothing", mesh->GetIndexCount(), mesh->GetInstCount());
+	}
 }
 
 void VoxelChunk::CreateNewChunk(const XMINT2& position)
@@ -46,7 +49,10 @@ void VoxelChunk::SetCell(XMUINT3 position, const VoxelCellType& type)
 
 bool VoxelChunk::CreateMesh()
 {
-	PrimitiveGenerator::CreateBox(mesh.vertices, mesh.indices);
+	if (mesh == nullptr)
+		mesh = new InstancingMesh<VoxelInstanceType>;
+
+	PrimitiveGenerator::CreateBox(mesh->vertices, mesh->indices);
 
 	for (int block = 0; block < 16; ++block)
 	{
@@ -59,12 +65,12 @@ bool VoxelChunk::CreateMesh()
 					VoxelCellType type = blocks[block].GetCell(VoxelBlock::Index(x, y, z)).type;
 					if (type != VoxelCellType::NONE)
 					{
-						mesh.instances.push_back(VoxelInstanceType(XMFLOAT3(position.x * 16 + x, block * 16 + y, position.y * 16 + z), type));
+						mesh->instances.push_back(VoxelInstanceType(XMFLOAT3(position.x * 16 + x, block * 16 + y, position.y * 16 + z), type));
 					}
 				}
 			}
 		}
 	}
 
-	return mesh.CreateBuffers(SVEngine::svEngine->GetD3DDevice());
+	return mesh->CreateBuffers(SVEngine::svEngine->GetD3DDevice());
 }
