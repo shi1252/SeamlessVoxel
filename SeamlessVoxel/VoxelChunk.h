@@ -12,22 +12,11 @@ enum class EChunkState
 	DONE
 };
 
-struct VoxelInstanceType
-{
-public:
-	VoxelInstanceType(XMFLOAT3 position, UINT voxelType)
-		: position(position), voxelType(voxelType) {}
-
-public:
-	XMFLOAT3 position;
-	UINT voxelType;
-};
-
 struct VoxelChunk
 {
 public:
-	VoxelChunk() : state(EChunkState::NONE) {}
-	VoxelChunk(XMINT2 position) : position(position) {}
+	VoxelChunk() : state(EChunkState::NONE) { SetParentForBlocks(); }
+	VoxelChunk(XMINT2 position) : position(position) { SetParentForBlocks(); }
 
 	void Render();
 
@@ -36,11 +25,11 @@ public:
 	void SetCell(XMUINT3 position, const VoxelCellType& type);
 	bool CreateMesh();
 
+private:
+	void SetParentForBlocks();
+
 public:
 	VoxelBlock blocks[CHUNKSIZE];
 	XMINT2 position = XMINT2(0, 0);
 	EChunkState state = EChunkState::NONE;
-
-	bool isChanged = false;
-	InstancingMesh<VoxelInstanceType>* mesh = nullptr;
 };

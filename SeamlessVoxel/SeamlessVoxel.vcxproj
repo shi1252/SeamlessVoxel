@@ -146,6 +146,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChunkMemoryPool.cpp" />
     <ClCompile Include="ColorShader.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="D3DClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="D3DInput.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PrimitiveGenerator.cpp" />
     <ClCompile Include="RegionFileManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChunkMemoryPool.h" />
     <ClInclude Include="ColorShader.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="D3DClass.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DxDefined.h" />
@@ -182,6 +185,7 @@
     <ClInclude Include="InstancingMesh.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="PrimitiveGenerator.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RegionFileManager.h" />

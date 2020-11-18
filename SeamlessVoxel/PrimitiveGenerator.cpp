@@ -46,8 +46,8 @@ namespace PrimitiveGenerator
 			Vertex(+w, +h, +d, 1.f, 0.f, 1.f, 0.f, 0.f),
 			Vertex(+w, -h, +d, 1.f, 1.f, 1.f, 0.f, 0.f)
 		};
-		outVertices.assign(&v[0], &v[24]);
-		//vertices.insert(std::end(vertices), std::begin(v), std::end(v));
+		//outVertices.assign(v, v + 24);
+		outVertices.insert(std::end(outVertices), std::begin(v), std::end(v));
 
 		UINT i[36] =
 		{

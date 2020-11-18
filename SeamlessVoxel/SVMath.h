@@ -62,6 +62,16 @@ namespace SVMath
 		return (v0.x * v1.x + v0.y * v1.y + v0.z * v1.z);
 	}
 
+	static float SizeSqr(const XMFLOAT3& v0)
+	{
+		return (v0.x * v0.x + v0.y * v0.y + v0.z * v0.z);
+	}
+
+	static float Size(const XMFLOAT3& v0)
+	{
+		return (sqrtf(SizeSqr(v0)));
+	}
+
 	inline XMINT3& operator+=(XMINT3& lhs, const XMINT3& rhs)
 	{
 		lhs = XMINT3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
@@ -91,9 +101,22 @@ namespace SVMath
 		return XMFLOAT3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 	}
 
+	inline XMFLOAT3 operator-(const XMFLOAT3& lhs)
+	{
+		return XMFLOAT3(-lhs.x, -lhs.y, -lhs.z);
+	}
+
 	inline XMFLOAT3 operator-(const XMFLOAT3& lhs, const XMFLOAT3& rhs)
 	{
 		return XMFLOAT3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+	}
+
+	inline XMFLOAT3& operator/=(XMFLOAT3& lhs, const float& div)
+	{
+		lhs.x /= div;
+		lhs.y /= div;
+		lhs.z /= div;
+		return lhs;
 	}
 
 	inline bool operator!=(const XMFLOAT3& lhs, const XMFLOAT3& rhs)

@@ -2,16 +2,17 @@
 #include "PrimitiveGenerator.h"
 #include "SeamlessVoxelEngine.h"
 #include "ShaderManager.h"
+#include "Camera.h"
+#include "Cube.h"
 
 void VoxelChunk::Render()
 {
 	if (state != EChunkState::DONE)
 		return;
 
-	if (mesh != nullptr)
+	for (int i = 0; i < CHUNKSIZE; ++i)
 	{
-		mesh->Render(SVEngine::svEngine->GetD3DDC());
-		SVEngine::svEngine->GetShaderManager()->Render("Nothing", mesh->GetIndexCount(), mesh->GetInstCount());
+		blocks[i].Render(i);
 	}
 }
 
@@ -44,33 +45,28 @@ void VoxelChunk::SetCell(XMUINT3 position, const VoxelCellType& type)
 	UINT cell = position.y % 16;
 
 	if (blocks[block].SetCell(VoxelBlock::Index(position.x, cell, position.y), type))
-		isChanged = true;
+		blocks[block].isChanged = true;
 }
 
 bool VoxelChunk::CreateMesh()
 {
-	if (mesh == nullptr)
-		mesh = new InstancingMesh<VoxelInstanceType>;
-
-	PrimitiveGenerator::CreateBox(mesh->vertices, mesh->indices);
-
-	for (int block = 0; block < 16; ++block)
+	int cnt = 0;
+	for (int i = 0; i < CHUNKSIZE; ++i)
 	{
-		for (int z = 0; z < 16; ++z)
-		{
-			for (int y = 0; y < 16; ++y)
-			{
-				for (int x = 0; x < 16; ++x)
-				{
-					VoxelCellType type = blocks[block].GetCell(VoxelBlock::Index(x, y, z)).type;
-					if (type != VoxelCellType::NONE)
-					{
-						mesh->instances.push_back(VoxelInstanceType(XMFLOAT3(position.x * 16 + x, block * 16 + y, position.y * 16 + z), type));
-					}
-				}
-			}
-		}
+		if (blocks[i].CreateMesh(i))
+			++cnt;
 	}
 
-	return mesh->CreateBuffers(SVEngine::svEngine->GetD3DDevice());
+	if (cnt == CHUNKSIZE)
+		return true;
+	
+	return false;
+}
+
+void VoxelChunk::SetParentForBlocks()
+{
+	for (int i = 0; i < CHUNKSIZE; ++i)
+	{
+		blocks[i].parent = this;
+	}
 }

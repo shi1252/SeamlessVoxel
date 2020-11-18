@@ -1,5 +1,6 @@
 #pragma once
 #include "Defined.h"
+#include "Cube.h"
 
 class Camera : public AlignedAllocationPolicy<16>
 {
@@ -19,6 +20,9 @@ public:
 
 	void Render();
 	void GetViewMatrix(XMMATRIX & view);
+
+	bool ViewSpaceFrustumCulling(const SVMath::Cube& cube);
+	bool ClipSpaceFrustumCulling(const SVMath::Cube& cube);
 
 	static Camera* mainCam;
 

@@ -57,7 +57,7 @@ bool Renderer::Initialize(int width, int height, HWND hWnd)
 		return false;
 	}
 
-	camera->SetPosition(0.f, 400.f, -5.0f);
+	camera->SetPosition(0.f, 200.f, -5.0f);
 
 	voxel = new VoxelTerrain();
 	if (!voxel)
@@ -84,6 +84,7 @@ bool Renderer::Render()
 	d3d->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
 
 	camera->Render();
+
 	// Get world, view, proj matrices
 	XMMATRIX world, view, proj, ortho;
 	d3d->GetWorldMatrix(world);

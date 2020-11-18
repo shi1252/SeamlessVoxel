@@ -37,11 +37,14 @@ bool RegionFileManager::LoadChunk(const XMINT2& position, VoxelChunk* chunk)
     if (ret != 0)
         return false;
 
-    ret = fread(chunk->blocks, sizeof(VoxelCellType), BLOCKSIZE * CHUNKSIZE, rf->file);
-    if (ret != BLOCKSIZE * CHUNKSIZE)
-        return false;
-
-    fflush(rf->file);
+    for (int i = 0; i < CHUNKSIZE; ++i)
+    {
+        ret = fread(&chunk->blocks[i], sizeof(VoxelCellType), BLOCKSIZE, rf->file);
+        if (ret != BLOCKSIZE)
+            return false;
+        
+        fflush(rf->file);
+    }
 
     chunk->position = position;
     chunk->state = EChunkState::DONE;
@@ -76,11 +79,14 @@ bool RegionFileManager::SaveChunk(VoxelChunk* chunk)
     if (ret != 0)
         return false;
 
-    ret = fwrite(chunk->blocks, sizeof(VoxelCellType), BLOCKSIZE * CHUNKSIZE, rf->file);
-    if (ret != BLOCKSIZE * CHUNKSIZE)
-        return false;
-    
-    fflush(rf->file);
+    for (int i = 0; i < CHUNKSIZE; ++i)
+    {
+        ret = fwrite(&chunk->blocks[i], sizeof(VoxelCellType), BLOCKSIZE, rf->file);
+        if (ret != BLOCKSIZE)
+            return false;
+
+        fflush(rf->file);
+    }
 
     return true;
 }

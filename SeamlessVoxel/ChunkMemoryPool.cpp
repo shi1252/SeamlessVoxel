@@ -1,4 +1,5 @@
 #include "ChunkMemoryPool.h"
+#include "VoxelBlock.h"
 #include "VoxelChunk.h"
 #include "RegionFileManager.h"
 #include "ThreadPool.h"
@@ -45,7 +46,7 @@ ChunkMemoryPool::~ChunkMemoryPool()
 		delete[] pool;
 		pool = nullptr;
 	}
-	
+
 	if (rfm)
 	{
 		delete rfm;
@@ -65,18 +66,18 @@ void ChunkMemoryPool::Update(const XMFLOAT3& position)
 	int y = position.z / 16.0f;
 	SVMath::RectangleInt renderRect(x - (int)halfSize, y - (int)halfSize, x + (int)halfSize, y + (int)halfSize);
 
-	std::vector<std::pair<int, int>> releaseList;
-	for (auto&& pair : map)
-	{
-		if (!renderRect.IntersectionAABB(XMINT2(pair.second->position.x, pair.second->position.y)))
-		{
-			releaseList.push_back(pair.first);
-		}
-	}
-	for (int i = 0; i < releaseList.size(); ++i)
-	{
-		ReleaseChunk(releaseList[i]);
-	}
+	//std::vector<std::pair<int, int>> releaseList;
+	//for (auto&& pair : map)
+	//{
+	//	if (!renderRect.IntersectionAABB(XMINT2(pair.second->position.x, pair.second->position.y)))
+	//	{
+	//		releaseList.push_back(pair.first);
+	//	}
+	//}
+	//for (int i = 0; i < releaseList.size(); ++i)
+	//{
+	//	ReleaseChunk(releaseList[i]);
+	//}
 
 	for (int i = 0; i < poolSize * poolSize; ++i)
 	{
@@ -157,6 +158,10 @@ void ChunkMemoryPool::LoadChunk(std::pair<int, int> position)
 			{
 				chunk->CreateNewChunk(pos);
 			}
+			for (int i = 0; i < CHUNKSIZE; ++i)
+			{
+				chunk->blocks[i].isChanged = true;
+			}
 			chunk->CreateMesh();
 
 			{
@@ -176,8 +181,10 @@ void ChunkMemoryPool::ReleaseChunk(int index)
 void ChunkMemoryPool::ReleaseChunk(std::pair<int, int> position)
 {
 	rfm->SaveChunk(map[position]);
-	delete map[position]->mesh;
-	map[position]->mesh = nullptr;
+	//for (int i = 0; i < CHUNKSIZE; ++i)
+	//{
+	//	map[position]->blocks[i].ReleaseMesh();
+	//}
 	map[position]->state = EChunkState::NONE;
 	{
 		std::unique_lock<std::mutex> lock(this->mutex);
