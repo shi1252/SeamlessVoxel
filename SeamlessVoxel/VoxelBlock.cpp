@@ -46,8 +46,10 @@ void VoxelBlock::Render(const int& block)
 		XMFLOAT3 rtf = XMFLOAT3((parent->position.x + 1.f) * 16.f, (block + 1) * 16.f, (parent->position.y + 1.f) * 16.f);
 		SVMath::Cube cube(lbb, rtf);
 
-		if (!cam.ViewSpaceFrustumCulling(cube))
-			//!Camera::mainCam->ViewSpaceFrustumCulling(cube))
+		if (//!cam.ViewSpaceFrustumCulling(cube))
+			//!Camera::mainCam->ViewSpaceFrustumCulling(cube)
+			//cam.ClipSpaceFrustumCulling(cube))
+			!Camera::mainCam->ClipSpaceFrustumCulling(cube))
 			return;
 
 		mesh->Render(SVEngine::svEngine->GetD3DDC());
@@ -77,9 +79,10 @@ bool VoxelBlock::CreateMesh(const int& block)
 	if (isChanged)
 	{
 		if (mesh == nullptr)
+		{
 			mesh = new InstancingMesh<VoxelInstanceType>;
-
-		PrimitiveGenerator::CreateBox(mesh->vertices, mesh->indices);
+			PrimitiveGenerator::CreateBox(mesh->vertices, mesh->indices);
+		}
 
 		for (int z = 0; z < 16; ++z)
 		{
@@ -105,6 +108,12 @@ bool VoxelBlock::CreateMesh(const int& block)
 
 void VoxelBlock::ReleaseMesh()
 {
+	memset(cells, VoxelCellType::NONE, sizeof(VoxelCell) * BLOCKSIZE);
+	if (mesh)
+	{
+		delete mesh;
+		mesh = nullptr;
+	}
 }
 
 char* VoxelBlock::GetBytesFromBlcok()

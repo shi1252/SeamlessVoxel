@@ -164,6 +164,63 @@ bool Camera::ClipSpaceFrustumCulling(const SVMath::Cube& cube)
 {
 	XMMATRIX proj;
 	SVEngine::svEngine->GetRenderer()->GetD3D()->GetProejctionMatrix(proj);
+	XMMATRIX vp = XMMatrixMultiply(viewMat, proj);
+
+	std::vector<XMFLOAT3> v = cube.GetAllCubePoints();
+	XMVECTOR vectors[8];
+	for (int i = 0; i < v.size(); ++i)
+	{
+		vectors[i] = XMLoadFloat3(&v[i]);
+		vectors[i].m128_f32[3] = 1.f;
+		vectors[i] = XMVector4Transform(vectors[i], vp);
+		vectors[i].m128_f32[0] /= vectors[i].m128_f32[3];
+		vectors[i].m128_f32[1] /= vectors[i].m128_f32[3];
+		vectors[i].m128_f32[2] /= vectors[i].m128_f32[3];
+		vectors[i].m128_f32[3] /= vectors[i].m128_f32[3];
+		//XMStoreFloat3(&v[i], XMVector3Transform(XMLoadFloat3(&v[i]), vp));
+	}
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		bool isXInside = vectors[i].m128_f32[0] >= -1 && vectors[i].m128_f32[0] <= 1;
+		bool isYInside = vectors[i].m128_f32[1] >= -1 && vectors[i].m128_f32[1] <= 1;
+		bool isZInside = vectors[i].m128_f32[2] >= 0 && vectors[i].m128_f32[2] <= 1;
+
+		if (isXInside && isYInside && isZInside)
+			return true;
+	}
+
+	return false;
+}
+
+bool Camera::ClipSpaceFrustumCullingXZ(const SVMath::Cube& cube)
+{
+	XMMATRIX proj;
+	SVEngine::svEngine->GetRenderer()->GetD3D()->GetProejctionMatrix(proj);
+	XMMATRIX vp = XMMatrixMultiply(viewMat, proj);
+
+	std::vector<XMFLOAT3> v = cube.GetAllCubePoints();
+	XMVECTOR vectors[8];
+	//std::vector<XMVECTOR> vectors;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		vectors[i] = XMLoadFloat3(&v[i]);
+		vectors[i].m128_f32[3] = 1.f;
+		vectors[i] = XMVector4Transform(vectors[i], vp);
+		vectors[i].m128_f32[0] /= vectors[i].m128_f32[3];
+		vectors[i].m128_f32[2] /= vectors[i].m128_f32[3];
+		vectors[i].m128_f32[3] /= vectors[i].m128_f32[3];
+		//XMStoreFloat3(&v[i], XMVector3Transform(XMLoadFloat3(&v[i]), vp));
+	}
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		bool isXInside = vectors[i].m128_f32[0] >= -1 && vectors[i].m128_f32[0] <= 1;
+		bool isZInside = vectors[i].m128_f32[2] >= 0 && vectors[i].m128_f32[2] <= 1;
+
+		if (isXInside && isZInside)
+			return true;
+	}
 
 	return false;
 }

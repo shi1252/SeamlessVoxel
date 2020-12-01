@@ -66,24 +66,28 @@ void ChunkMemoryPool::Update(const XMFLOAT3& position)
 	int y = position.z / 16.0f;
 	SVMath::RectangleInt renderRect(x - (int)halfSize, y - (int)halfSize, x + (int)halfSize, y + (int)halfSize);
 
-	//std::vector<std::pair<int, int>> releaseList;
-	//for (auto&& pair : map)
+	std::vector<std::pair<int, int>> releaseList;
+	for (auto&& pair : map)
+	{
+		if (!renderRect.IntersectionAABB(XMINT2(pair.second->position.x, pair.second->position.y)))
+		{
+			releaseList.push_back(pair.first);
+		}
+	}
+	for (int i = 0; i < releaseList.size(); ++i)
+	{
+		ReleaseChunk(releaseList[i]);
+	}
+
+	//int cnt = 0;
+	//for (int i = 0; i < poolSize * poolSize; ++i)
 	//{
-	//	if (!renderRect.IntersectionAABB(XMINT2(pair.second->position.x, pair.second->position.y)))
+	//	if (pool[i].state == EChunkState::DONE)
 	//	{
-	//		releaseList.push_back(pair.first);
+	//		++cnt;
+	//		continue;
 	//	}
 	//}
-	//for (int i = 0; i < releaseList.size(); ++i)
-	//{
-	//	ReleaseChunk(releaseList[i]);
-	//}
-
-	for (int i = 0; i < poolSize * poolSize; ++i)
-	{
-		if (pool[i].state == EChunkState::DONE)
-			continue;
-	}
 
 	int n = 1;
 	int mapX = x;
@@ -157,6 +161,7 @@ void ChunkMemoryPool::LoadChunk(std::pair<int, int> position)
 			if (!rfm->LoadChunk(pos, chunk))
 			{
 				chunk->CreateNewChunk(pos);
+				rfm->SaveChunk(chunk);
 			}
 			for (int i = 0; i < CHUNKSIZE; ++i)
 			{
@@ -180,17 +185,18 @@ void ChunkMemoryPool::ReleaseChunk(int index)
 
 void ChunkMemoryPool::ReleaseChunk(std::pair<int, int> position)
 {
-	rfm->SaveChunk(map[position]);
-	//for (int i = 0; i < CHUNKSIZE; ++i)
-	//{
-	//	map[position]->blocks[i].ReleaseMesh();
-	//}
-	map[position]->state = EChunkState::NONE;
 	{
 		std::unique_lock<std::mutex> lock(this->mutex);
+		rfm->SaveChunk(map[position]);
+		for (int i = 0; i < CHUNKSIZE; ++i)
+		{
+			map[position]->blocks[i].ReleaseMesh();
+		}
+		map[position]->state = EChunkState::NONE;
+
 		waitingChunks.push(map[position]);
+		map.erase(position);
 	}
-	map.erase(position);
 }
 
 void ChunkMemoryPool::SaveAllChunks()

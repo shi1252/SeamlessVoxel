@@ -23,6 +23,7 @@ public:
 
 	bool ViewSpaceFrustumCulling(const SVMath::Cube& cube);
 	bool ClipSpaceFrustumCulling(const SVMath::Cube& cube);
+	bool ClipSpaceFrustumCullingXZ(const SVMath::Cube& cube);
 
 	static Camera* mainCam;
 

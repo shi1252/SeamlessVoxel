@@ -32,6 +32,7 @@ bool RegionFileManager::LoadChunk(const XMINT2& position, VoxelChunk* chunk)
     if (offset == 0 || sectorCount == 0)
         return false;
 
+    std::unique_lock<std::mutex> lock(this->mutex);
     offset *= SECTORSIZE;
     int ret = fseek(rf->file, offset, SEEK_SET);
     if (ret != 0)
@@ -74,6 +75,8 @@ bool RegionFileManager::SaveChunk(VoxelChunk* chunk)
         rf->header.location[index] = head;
         rf->isDirty = true;
     }
+
+    std::unique_lock<std::mutex> lock(this->mutex);
     offset *= SECTORSIZE;
     int ret = fseek(rf->file, offset, SEEK_SET);
     if (ret != 0)
