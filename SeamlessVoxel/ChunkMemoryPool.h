@@ -22,7 +22,7 @@ public:
 class ChunkMemoryPool
 {
 public:
-	ChunkMemoryPool(unsigned int size = 16);
+	ChunkMemoryPool(unsigned int size = 24);
 	~ChunkMemoryPool();
 
 	void Update(const XMFLOAT3& position);

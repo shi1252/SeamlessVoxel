@@ -5,6 +5,7 @@ class D3DClass;
 class ShaderManager;
 class VoxelTerrain;
 class Camera;
+class Light;
 
 const bool VSYNC_ENABLED = true;
 const float SCREEN_FAR = 1000.f;
@@ -35,4 +36,5 @@ private:
 	Camera* camera = nullptr;
 	ShaderManager* shaderManager = nullptr;
 	VoxelTerrain* voxel = nullptr;
+	Light* light = nullptr;
 };

@@ -13,7 +13,7 @@ bool ResourceManager::CreateTexture(std::string name, LPCTSTR fileName, TextureT
 		return false;
 
 	textures[name] = std::make_unique<Texture>();
-	textures[name].get()->LoadTexture(SVEngine::svEngine->GetD3DDevice(), fileName, textureType);
+	return textures[name].get()->LoadTexture(SVEngine::svEngine->GetD3DDevice(), fileName, textureType);
 }
 
 bool ResourceManager::CreateMaterial(std::string name, std::string shaderName, Texture* texture)
@@ -22,6 +22,7 @@ bool ResourceManager::CreateMaterial(std::string name, std::string shaderName, T
 		return false;
 
 	materials[name] = std::make_unique<Material>(name, shaderName, texture);
+	return true;
 }
 
 bool ResourceManager::CreateMaterial(std::string name, std::string shaderName, std::string textureName)
@@ -30,6 +31,7 @@ bool ResourceManager::CreateMaterial(std::string name, std::string shaderName, s
 		return false;
 
 	materials[name] = std::make_unique<Material>(name, shaderName, GetTexture(textureName));
+	return true;
 }
 
 Texture* ResourceManager::GetTexture(std::string name)

@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <typeinfo>
 
-class LightClass;
+class Light;
 
 class ShaderParameter
 {
@@ -13,7 +13,7 @@ private:
 	std::unordered_map<std::string, XMFLOAT2> pfloat2;
 	std::unordered_map<std::string, float> pfloat;
 	std::unordered_map<std::string, XMMATRIX> pmatrix;
-	std::unordered_map<std::string, LightClass*> plight;
+	std::unordered_map<std::string, Light*> plight;
 
 public:
 	ShaderParameter() = default;
@@ -24,7 +24,7 @@ public:
 	void SetParam(std::string name, XMFLOAT2 val) { pfloat2[name] = val; }
 	void SetParam(std::string name, float val) { pfloat[name] = val; }
 	void SetParam(std::string name, XMMATRIX val) { pmatrix[name] = val; }
-	void SetParam(std::string name, LightClass* val) { plight[name] = val; }
+	void SetParam(std::string name, Light* val) { plight[name] = val; }
 
 	template <typename T>
 	T GetParam(std::string name) { return T(); }
@@ -69,7 +69,7 @@ public:
 			return XMMATRIX();
 	}
 	template<>
-	LightClass* GetParam(std::string name)
+	Light* GetParam(std::string name)
 	{
 		if (plight.find(name) != plight.end())
 			return plight[name];

@@ -1,10 +1,16 @@
 #include "Material.h"
 #include "Texture.h"
 
-ID3D11ShaderResourceView* Material::GetTextureSRV()
+Material::Material(std::string name, std::string shaderName, Texture* texture)
+	: name(name), shaderName(shaderName)
 {
-	if (texture)
-		return texture->GetSRV();
+	textures.push_back(texture);
+}
+
+ID3D11ShaderResourceView* Material::GetTextureSRV(int index)
+{
+	if (textures.size() > 0)
+		return textures[index]->GetSRV();
 
 	return nullptr;
 }

@@ -78,6 +78,12 @@ bool SVEngine::Initialize()
 	if (!resourceManager->CreateMaterial("Nothing", "InstanceColorShader", ""))
 		return false;
 
+	if (!resourceManager->CreateMaterial("DIRT", "InstanceVoxelShader", "Grass"))
+		return false;
+	resourceManager->GetMaterial("DIRT")->AddTexture(resourceManager->GetTexture("Rock_028_NORM"));
+	resourceManager->GetMaterial("DIRT")->AddTexture(resourceManager->GetTexture("Rock_028_COLOR"));
+	resourceManager->GetMaterial("DIRT")->AddTexture(resourceManager->GetTexture("Rock_028_NORM"));
+
 	return true;
 }
 

@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "ColorShader.h"
 #include "InstanceColorShader.h"
+#include "InstanceVoxelShader.h"
 
 ShaderManager::ShaderManager(ID3D11Device* device, HWND hwnd)
 {
@@ -14,6 +15,9 @@ ShaderManager::ShaderManager(ID3D11Device* device, HWND hwnd)
 
 	shaders["InstanceColorShader"] = new InstanceColorShader();
 	shaders["InstanceColorShader"]->Initialize(device, hwnd);
+
+	shaders["InstanceVoxelShader"] = new InstanceVoxelShader();
+	shaders["InstanceVoxelShader"]->Initialize(device, hwnd);
 }
 
 ShaderManager::~ShaderManager()

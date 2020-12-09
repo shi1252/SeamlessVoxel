@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "ShaderManager.h"
 #include "VoxelTerrain.h"
+#include "Light.h"
 
 Renderer::~Renderer()
 {
@@ -10,6 +11,12 @@ Renderer::~Renderer()
 	{
 		delete voxel;
 		voxel = nullptr;
+	}
+
+	if (light)
+	{
+		delete light;
+		light = nullptr;
 	}
 
 	if (camera)
@@ -65,6 +72,12 @@ bool Renderer::Initialize(int width, int height, HWND hWnd)
 		return false;
 	}
 
+	light = new Light;
+	if (!light)
+		return false;
+	light->SetAmbientColor(XMFLOAT4(0.5f, 0.5f, 0.5f, 1.f));
+	light->SetDiffuseColor(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
 	return true;
 }
 
@@ -99,11 +112,11 @@ bool Renderer::Render()
 	params->SetParam("proj", proj);
 	params->SetParam("ortho", ortho);
 
-	//XMFLOAT3 camPos3 = camera->GetPosition();
-	//XMFLOAT4 camPos4 = XMFLOAT4(camPos3.x, camPos3.y, camPos3.z, 1.f);
-	//params.SetParam("camPos", camPos4);
+	XMFLOAT3 camPos3 = camera->GetPosition();
+	XMFLOAT4 camPos4 = XMFLOAT4(camPos3.x, camPos3.y, camPos3.z, 1.f);
+	params->SetParam("camPos", camPos4);
 
-	//params.SetParam("light", light);
+	params->SetParam("light", light);
 #pragma endregion
 
 	voxel->Render();

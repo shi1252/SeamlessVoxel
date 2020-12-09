@@ -145,6 +145,8 @@
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="D3DInput.cpp" />
     <ClCompile Include="InstanceColorShader.cpp" />
+    <ClCompile Include="InstanceVoxelShader.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -178,7 +180,9 @@
     <ClInclude Include="DxDefined.h" />
     <ClInclude Include="D3DInput.h" />
     <ClInclude Include="InstanceColorShader.h" />
+    <ClInclude Include="InstanceVoxelShader.h" />
     <ClInclude Include="InstancingMesh.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PerlinNoise.h" />

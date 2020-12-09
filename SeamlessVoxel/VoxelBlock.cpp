@@ -53,7 +53,7 @@ void VoxelBlock::Render(const int& block)
 			return;
 
 		mesh->Render(SVEngine::svEngine->GetD3DDC());
-		SVEngine::svEngine->GetShaderManager()->Render("Nothing", mesh->GetIndexCount(), mesh->GetInstCount());
+		SVEngine::svEngine->GetShaderManager()->Render("DIRT", mesh->GetIndexCount(), mesh->GetInstCount());
 	}
 }
 
